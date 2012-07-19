@@ -61,7 +61,7 @@ class Akismet {
         }
     }
     
-    function check($author, $email, $content) {
+    function check($author, $email, $content, $url = FALSE) {
         $params = array();
         $params['blog'] = $this->blog;
         $params['user_ip'] = $_SERVER['REMOTE_ADDR'];
@@ -74,6 +74,10 @@ class Akismet {
         $params['comment_author'] = $author;
         $params['comment_author_email'] = $email;
         $params['comment_content'] = $content;
+		
+		if ($url) {
+			$params['comment_author_url'] = $url;
+		}
         
         $response = $this->request('https://' . $this->api_key . '.rest.akismet.com/1.1/comment-check', $params);
         
